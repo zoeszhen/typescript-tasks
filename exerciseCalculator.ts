@@ -7,10 +7,14 @@ interface ExecriseResult {
     target: number,
     average: number 
 }
+interface HoursData{
+    targetHours: number,
+    hours: Array<number>
+}
 
 const ratingDescription: Array<string> = ['keep it up', 'not too bad but could be better', 'good job']
 
-const execriseCalculator = ( hours:Array<number>, targetHours : number): ExecriseResult=>{
+const execriseCalculator = ( { hours, targetHours } : HoursData): ExecriseResult=>{
     const averageHours: number = hours.reduce((a, b) => a + b, 0)/hours.length
     const rating : number = averageHours/targetHours >= 1 ? 3 : averageHours/targetHours >= 0.5 ? 2 : 1
     return {
@@ -23,4 +27,12 @@ const execriseCalculator = ( hours:Array<number>, targetHours : number): Execris
         average: averageHours 
     }
 }
-execriseCalculator([3, 0, 2, 4.5, 0, 3, 1],2)
+
+const parseArguments = (args: Array<string>): HoursData => {
+    return {
+        targetHours:Number(args[2]),
+        hours: args.slice(3, args.length).map((hour)=>Number(hour))
+    }
+}
+
+console.log(execriseCalculator(parseArguments(process.argv)))

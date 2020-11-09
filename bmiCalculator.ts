@@ -54,4 +54,4 @@ const calculateBmi = (height: number, weight: number): string => {
    return bmiList.filter((bmiRef)=> bmiRef.min<bmi && bmiRef.max> bmi)[0].message
 }
 
-console.log(calculateBmi(180, 74))
+console.log(calculateBmi(Number(process.argv[2]), Number(process.argv[3])))
