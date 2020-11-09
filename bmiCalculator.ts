@@ -1,4 +1,4 @@
-type BMIType = {
+interface BMIType {
     message: string
     min: number
     max: number
