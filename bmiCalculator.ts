@@ -44,19 +44,19 @@ const bmiList: Array<BMIType> = [
         min: 40,
         max: 100
     }
-]
+];
 
 /**
  * BMI
  */
 export const calculateBmi = (height: number, weight: number): string => {
-    const bmi: number = weight/(height*height/10000)
-    const res = bmiList.filter((bmiRef)=> bmiRef.min<bmi && bmiRef.max> bmi)
+    const bmi: number = weight/(height*height/10000);
+    const res = bmiList.filter((bmiRef)=> bmiRef.min<bmi && bmiRef.max> bmi);
     if(res.length > 0){
-        return res[0].message
+        return res[0].message;
     }else{
-        return "malformatted parameters"
+        return "malformatted parameters";
     }
-}
+};
 
-console.log(calculateBmi(Number(process.argv[2]), Number(process.argv[3])))
+console.log(calculateBmi(Number(process.argv[2]), Number(process.argv[3])));
