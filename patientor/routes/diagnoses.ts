@@ -7,6 +7,7 @@ router.get('/', (_req, res) => {
   res.send(diagonsesService.getEntries());
 })
 
+
 router.post('/', (_req, res) => {
   res.send('Saving a diagnoses!');
 })

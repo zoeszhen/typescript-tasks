@@ -11,6 +11,10 @@ const getNonSensitiveEntries = (): NonSensitivePatientData[] => {
     return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({ id, name, dateOfBirth, gender, occupation }));
 };
 
+const getEntries = (): NonSensitivePatientData[] => {
+    return patients
+};
+
 const addPatient = (newPatient: NewPatient): Patient => {
     const newPatientEntry = {
         id: chance.guid,
@@ -22,5 +26,6 @@ const addPatient = (newPatient: NewPatient): Patient => {
 }
 export default {
     getNonSensitiveEntries,
-    addPatient
+    addPatient,
+    getEntries
 };
