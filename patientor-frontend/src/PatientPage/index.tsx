@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import axios from "axios";
-import { Patient } from "../types";
+import { Patient, HealthCheckEntry } from "../types";
 import { apiBaseUrl } from "../constants";
 import { useStateValue } from "../state";
 import { useParams } from "react-router-dom"
-import { Header, Icon, List } from "semantic-ui-react";
+import { Header, Icon, List, Button } from "semantic-ui-react";
 import EntryDetails from '../components/EntryDetails'
+import { PatientEntryValues } from "../AddPatientModal/AddEntryForm";
+import AddPatientModal from "../AddPatientModal";
+
 const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
     const [{ patientsDetail, diagnosis }, dispatch] = useStateValue();
@@ -26,11 +29,45 @@ const PatientPage = () => {
             fetchPatientDetail()
         }
     }, [dispatch])
+    const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+    const [error, setError] = React.useState<string | undefined>();
+
+    const openModal = (): void => setModalOpen(true);
+
+    const closeModal = (): void => {
+        setModalOpen(false);
+        setError(undefined);
+    };
 
     if (!(patientsDetail && id)) {
         return <div>no patient data</div>
     }
     const patient = Object.values(patientsDetail).find((patient) => patient.id === id)
+
+    const submitNewPatient = async (values: PatientEntryValues) => {
+        try {
+            const { data: newPatientEntry } = await axios.post<HealthCheckEntry>(
+                `${apiBaseUrl}/patients/${id}/entries `,
+                {
+                    ...values,
+                    type: "HealthCheck",
+                }
+            );
+            if (patient) {
+                const newPatient = {
+                    ...patient,
+                    entries: patient?.entries.concat(newPatientEntry)
+                }
+
+                dispatch({ type: "ADD_PATIENT_ENTRY", payload: newPatient });
+            }
+            closeModal();
+        } catch (e) {
+            console.error(e.response.data);
+            setError(e.response.data.error);
+        }
+    };
+
     return <div>
 
         {
@@ -67,6 +104,14 @@ const PatientPage = () => {
                 </div>
             </div>
         }
+        <AddPatientModal
+            modalOpen={modalOpen}
+            onSubmit={submitNewPatient}
+            error={error}
+            onClose={closeModal}
+            isEntry={true}
+        />
+        <Button onClick={() => openModal()}>Add New Patient</Button>
     </div>
 
 }

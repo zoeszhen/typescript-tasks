@@ -1,5 +1,5 @@
 import patientData from '../data/patients'
-import { NonSensitivePatientData, NewPatient, Patient } from '../types'
+import { NonSensitivePatientData, NewPatient, Patient, Entry } from '../types'
 // Load Chance
 const Chance = require('chance');
 
@@ -24,8 +24,19 @@ const addPatient = (newPatient: NewPatient): Patient => {
     patients.push(newPatientEntry);
     return newPatientEntry;
 }
+
+const addPatientEntry = (newEntry: Entry): Entry => {
+    patients.forEach(patient => {
+        if (patient.id === newEntry.id) {
+            patient.entries.push(newEntry)
+        }
+    });
+    return newEntry;
+}
+
 export default {
     getNonSensitiveEntries,
     addPatient,
-    getEntries
+    getEntries,
+    addPatientEntry
 };

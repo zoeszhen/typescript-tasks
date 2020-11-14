@@ -1,6 +1,6 @@
 import express from 'express';
 import { calculateBmi } from "./bmiCalculator";
-import {execriseCalculator, HoursData} from "./exerciseCalculator"
+import { execriseCalculator, HoursData } from "./exerciseCalculator"
 const app = express();
 app.use(express.json())
 
@@ -9,10 +9,10 @@ app.get('/hello', (_req, res) => {
 });
 
 app.get('/bmi?:height?:weight', (req, res) => {
-  if(!(req.query.height&&req.query.weight)){
+  if (!(req.query.height && req.query.weight)) {
     res.status(400).json({ error: 'malformatted parameters' });
   }
-  res.send(calculateBmi(Number(req.query.height), Number(req.query.weight) )); 
+  res.send(calculateBmi(Number(req.query.height), Number(req.query.weight)));
 });
 
 /** For rest client
@@ -25,22 +25,21 @@ app.get('/bmi?:height?:weight', (req, res) => {
   }
 */
 
-app.post('/execrise', (req,res) => {
-    console.log("req.body",req.body)
-    const execrise:HoursData = req.body;
+app.post('/execrise', (req, res) => {
+  const execrise: HoursData = req.body;
 
-    if(!(execrise.daily_exercises&& execrise.target)){
+  if (!(execrise.daily_exercises && execrise.target)) {
 
-      res.status(400).json({ error: 'parameters missing' });
-      return ;
-    }
-    
-    if(!(Array.isArray(execrise.daily_exercises) && typeof execrise.target == 'number')){
-      res.status(400).json({ error: 'malformatted parameters' });
-      return ;
-    }
+    res.status(400).json({ error: 'parameters missing' });
+    return;
+  }
 
-    res.send(execriseCalculator(execrise)); 
+  if (!(Array.isArray(execrise.daily_exercises) && typeof execrise.target == 'number')) {
+    res.status(400).json({ error: 'malformatted parameters' });
+    return;
+  }
+
+  res.send(execriseCalculator(execrise));
 });
 
 const PORT = 3003;
