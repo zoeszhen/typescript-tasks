@@ -4,7 +4,7 @@ import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
 import { useStateValue } from "../state";
 import { useParams } from "react-router-dom"
-import { Header, Icon } from "semantic-ui-react";
+import { Header, Icon, List } from "semantic-ui-react";
 const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
     const [{ patientsDetail }, dispatch] = useStateValue();
@@ -43,6 +43,25 @@ const PatientPage = () => {
                 </div>
                 <div>
                     occupation: {patient.occupation}
+                </div>
+                <Header as="h2">entries</Header>
+                <div>
+                    {
+                        patient.entries.map((entry) =>
+                            <>
+                                <div>
+                                    {entry.date} {entry.description}
+                                </div>
+                                <List bulleted>
+                                    {
+                                        entry.diagnosisCodes && entry.diagnosisCodes.map((code) => <List.Item >
+                                            {code}
+                                        </List.Item>)
+                                    }
+                                </List>
+                            </>
+                        )
+                    }
                 </div>
             </div>
         }

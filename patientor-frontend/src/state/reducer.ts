@@ -1,5 +1,3 @@
-import axios from "axios";
-import { apiBaseUrl } from "../constants";
 import { State } from "./state";
 import { Patient } from "../types";
 
