@@ -1,5 +1,8 @@
+import axios from "axios";
+import { apiBaseUrl } from "../constants";
 import { State } from "./state";
 import { Patient } from "../types";
+
 
 export type Action =
   | {
@@ -49,3 +52,7 @@ export const reducer = (state: State, action: Action): State => {
       return state;
   }
 };
+
+export const setPatientList = (patientListFromApi: Patient[]): Action => {
+  return { type: "SET_PATIENT_LIST", payload: patientListFromApi }
+}
