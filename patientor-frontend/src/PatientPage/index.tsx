@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom"
 import { Header, Icon, List } from "semantic-ui-react";
 const PatientPage = () => {
     const { id } = useParams<{ id: string }>();
-    const [{ patientsDetail }, dispatch] = useStateValue();
+    const [{ patientsDetail, diagnosis }, dispatch] = useStateValue();
 
     useEffect(() => {
         if (!Object.keys(patientsDetail).includes(id)) {
@@ -54,8 +54,8 @@ const PatientPage = () => {
                                 </div>
                                 <List bulleted>
                                     {
-                                        entry.diagnosisCodes && entry.diagnosisCodes.map((code) => <List.Item >
-                                            {code}
+                                        diagnosis.length > 0 && entry.diagnosisCodes && entry.diagnosisCodes.map((code) => <List.Item >
+                                            {code} {diagnosis.find((detail) => detail.code === code)?.name}
                                         </List.Item>)
                                     }
                                 </List>
